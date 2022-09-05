@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<t t-name="stock_production_lot.label_lot_template_view">
+    <t t-set="uom_categ_unit" t-value="env.ref('uom.product_uom_categ_unit')"/>
+    <t t-foreach="docs" t-as="stock_production_lot">
+        
+            <t t-translation="off">
+                
+                ^FX reset all memory
+                ^MCY
+                ^JUR
+                
+                ^XA
+
+                ^FX Top section with logo, name and address.
+                ^FX begin logo in binary
+
+                ^FX end logo in binary
+                ^FO50,220^GB700,3,3^FS
+
+                ^FX Second section:product code
+                ^FX ommit product code, cause this should be clear by the date itself
+                ^CFA,30
+                ^FO310,250
+                ^FD<t t-esc="stock_production_lot.product_id.default_code"/>^FS
+                ^FO50,300^GB700,3,3^FS
+
+                ^FX third section data
+                ^FX Description
+                ^CFA,30
+                ^FO50,320^FDDescription:^FS
+                ^FO300,320^FB500,2^FD<t t-esc="stock_production_lot.product_id.name"/>^FS
+
+                ^FX Weight
+                ^CFA,30
+                ^FO50,390^FDWeight:^FS
+                ^FO300,390^FD<t t-esc="stock_production_lot.product_qty"/> <t t-esc="stock_production_lot.product_uom_id.name"/>^FS
+
+                ^FX Lot
+                ^CFA,30
+                ^FO50,440^FDLot:^FS
+                ^FO300,440^FB500,2^FD<t t-esc="stock_production_lot.name"/>^FS
+
+                ^FO50,520^GB700,3,3^FS
+
+                ^FX end third section
+
+                ^FX QR barcode section
+                ^FX <t t-set="barcode_product_barcode" t-value="'{:&lt;014s}'.format(str(stock_production_lot.product_id.barcode))"/>
+                ^FX <t t-set="barcode_product_weight" t-value="'{:>06d}'.format(int(stock_production_lot.product_qty))"/>
+                ^FX <t t-set="barcode_product_lot" t-value="'{:>06s}'.format(str(stock_production_lot.name)) or '000000'"/>
+                ^FO100,560^FB500,3^FD01<t t-esc="barcode_product_barcode"/>310<t t-esc="barcode_product_weight"/><t t-if="stock_production_lot">10<t t-esc="barcode_product_lot"/></t>^FS
+                ^FO300,650^BQN,2,8,Q,7^FD01<t t-esc="barcode_product_barcode"/>310<t t-esc="barcode_product_weight"/><t t-if="stock_production_lot">10<t t-esc="barcode_product_lot"/></t>^FS
+
+                ^XZ
+
+            </t>
+
+        
+    </t>
+</t>

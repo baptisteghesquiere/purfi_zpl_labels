@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<t t-name="__custom_accomodata__.label_production_view_custom_accomodata_india">
+    <t t-set="uom_categ_unit" t-value="env.ref('uom.product_uom_categ_unit')"/>
+    <t t-foreach="docs" t-as="production">
+        <t t-foreach="production.move_finished_ids" t-as="move">
+            <t t-foreach="move.move_line_ids" t-as="move_line">
+                <t t-if="move_line.product_uom_id.category_id == uom_categ_unit">
+                    <t t-set="qty" t-value="int(move_line.qty_done)"/>
+                </t>
+                <t t-else="">
+                    <t t-set="qty" t-value="1"/>
+                </t>
+                <t t-foreach="range(qty)" t-as="item">
+                    <t t-translation="off">
+                        ^FX reset all memory
+                        ^MCY
+                        ^JUR
+                        
+                        ^XA
+
+                        ^FX Top section with logo, name and address.
+                        ^FX begin logo in binary
+
+
+                        ^FX end logo in binary
+                        ^FO50,220^GB700,3,3^FS
+
+                        ^FX Second section:product code
+                        ^FX ommit product code, cause this should be clear by the date itself
+                        ^CFA,30
+                        ^FO310,250
+                        ^FD<t t-esc="move_line.product_id.default_code"/>^FS
+                        ^FO50,300^GB700,3,3^FS
+
+                        ^FX third section data
+                        ^FX Description
+                        ^CFA,30
+                        ^FO50,320^FDDescription:^FS
+                        ^FO300,320^FB500,2^FD<t t-esc="move_line.product_id.name"/>^FS
+
+                        ^FX Weight
+                        ^CFA,30
+                        ^FO50,390^FDWeight:^FS
+                        ^FO300,390^FD<t t-esc="move_line.lot_id.product_qty"/> <t t-esc="move_line.lot_id.product_uom_id.name"/>^FS
+
+                        ^FX Lot
+                        ^CFA,30
+                        ^FO50,440^FDLot:^FS
+                        ^FO300,440^FD<t t-esc="move_line.lot_id.name"/>^FS
+
+                        ^FO50,480^GB700,3,3^FS
+
+                        ^FX end third section
+
+                        ^FX QR barcode section
+                        ^FX <t t-set="barcode_product_barcode" t-value="'{:&lt;014s}'.format(str(move_line.product_id.barcode))"/>
+                        ^FX <t t-set="barcode_product_weight" t-value="'{:>06d}'.format(int(move_line.lot_id.product_qty))"/>
+                        ^FX <t t-set="barcode_product_lot" t-value="'{:>06s}'.format(str(move_line.lot_id.name))"/>
+                        ^FO100,560^FD01<t t-esc="barcode_product_barcode"/>310<t t-esc="barcode_product_weight"/>10<t t-esc="barcode_product_lot"/>^FS
+                        ^FO300,650^BQN,2,8,Q,7^FD01<t t-esc="barcode_product_barcode"/>310<t t-esc="barcode_product_weight"/>10<t t-esc="barcode_product_lot"/>^FS
+
+                        ^XZ
+
+                        </t>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </t>

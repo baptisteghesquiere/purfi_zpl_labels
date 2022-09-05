@@ -52,9 +52,7 @@
                 ^FX <t t-set="barcode_product_lot" t-value="'{:>06s}'.format(str(move.lot_id.name)) or '000000'"/>
                 ^FO100,560^FD01<t t-esc="barcode_product_barcode"/>310<t t-esc="barcode_product_weight"/><t t-if="move.lot_id">10<t t-esc="barcode_product_lot"/></t>^FS
                 ^FO300,650^BQN,2,8,Q,7^FD01<t t-esc="barcode_product_barcode"/>310<t t-esc="barcode_product_weight"/><t t-if="move.lot_id">10<t t-esc="barcode_product_lot"/></t>^FS
-                
-                ^FX extra barcode print to reset magnification level for followin BC barcodes
-                ^FO350,930^BQN,2,3,Q,7^FD01<t t-esc="barcode_product_barcode"/>310<t t-esc="barcode_product_weight"/><t t-if="move.lot_id">10<t t-esc="barcode_product_lot"/></t>^FS
+
                 ^XZ
 
             </t>
