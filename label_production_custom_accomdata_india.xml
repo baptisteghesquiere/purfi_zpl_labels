@@ -56,8 +56,8 @@
                         ^FX <t t-set="barcode_product_barcode" t-value="'{:&lt;014s}'.format(str(move_line.product_id.barcode))"/>
                         ^FX <t t-set="barcode_product_weight" t-value="'{:>06d}'.format(int(move_line.lot_id.product_qty))"/>
                         ^FX <t t-set="barcode_product_lot" t-value="'{:>06s}'.format(str(move_line.lot_id.name))"/>
-                        ^FO100,560^FD01<t t-esc="barcode_product_barcode"/>310<t t-esc="barcode_product_weight"/>10<t t-esc="barcode_product_lot"/>^FS
-                        ^FO300,650^BQN,2,8,Q,7^FD01<t t-esc="barcode_product_barcode"/>310<t t-esc="barcode_product_weight"/>10<t t-esc="barcode_product_lot"/>^FS
+                        ^FO100,560^FD01<t t-esc="barcode_product_barcode"/>3100<t t-esc="barcode_product_weight"/>10<t t-esc="barcode_product_lot"/>^FS
+                        ^FO300,650^BQN,2,8^FDHM,N01 <t t-esc="barcode_product_barcode"/>3100<t t-esc="barcode_product_weight"/>10<t t-esc="barcode_product_lot"/>^FS
 
                         ^XZ
 
